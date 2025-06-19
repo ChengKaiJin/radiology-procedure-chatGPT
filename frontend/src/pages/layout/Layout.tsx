@@ -9,6 +9,14 @@ import { HistoryButton, ShareButton } from '../../components/common/Button'
 import { AppStateContext } from '../../state/AppProvider'
 
 import styles from './Layout.module.css'
+import { Dropdown, IDropdownOption } from '@fluentui/react'
+
+const dropdownOptions: IDropdownOption[] = [
+  { key: 'radiology', text: 'Radiology Procedure', data: { assistantId: 'assistant_radiology_id' } },
+  { key: 'ai_discharge', text: 'AI Discharge Summary', data: { assistantId: 'asst_5r1zDFF5azJdrE9XLHcewtyg' } },
+  { key: 'demo', text: 'Demo', data: { assistantId: 'asst_yH75KL07chJztcQJ2FvAnD4A' } }
+]
+
 
 const Layout = () => {
   const [isSharePanelOpen, setIsSharePanelOpen] = useState<boolean>(false)
@@ -79,6 +87,12 @@ const Layout = () => {
         <Stack horizontal verticalAlign="center" horizontalAlign="space-between">
           <Stack horizontal verticalAlign="center">
             <img src={logo} className={styles.headerIcon} aria-hidden="true" alt="" />
+            {/* Dropdown added here */}
+            <Dropdown
+              placeholder="Select a use case"
+              options={dropdownOptions}
+              styles={{ root: { minWidth: 200, marginLeft: 12 } }}
+            />
             <Link to="/" className={styles.headerTitleContainer}>
               <h1 className={styles.headerTitle}>{ui?.title}</h1>
             </Link>
