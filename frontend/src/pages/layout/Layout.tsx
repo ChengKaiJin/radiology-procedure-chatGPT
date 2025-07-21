@@ -17,7 +17,6 @@ const dropdownOptions: IDropdownOption[] = [
   { key: 'demo', text: 'Demo', data: { assistantId: 'asst_yH75KL07chJztcQJ2FvAnD4A' } }
 ]
 
-
 const Layout = () => {
   const [isSharePanelOpen, setIsSharePanelOpen] = useState<boolean>(false)
   const [copyClicked, setCopyClicked] = useState<boolean>(false)
@@ -26,6 +25,8 @@ const Layout = () => {
   const [hideHistoryLabel, setHideHistoryLabel] = useState<string>('Hide chat history')
   const [showHistoryLabel, setShowHistoryLabel] = useState<string>('Show chat history')
   const [logo, setLogo] = useState('')
+  const [selectedUseCase, setSelectedUseCase] = useState<IDropdownOption | undefined>(undefined)
+  
   const appStateContext = useContext(AppStateContext)
   const ui = appStateContext?.state.frontendSettings?.ui
 
@@ -46,6 +47,27 @@ const Layout = () => {
 
   const handleHistoryClick = () => {
     appStateContext?.dispatch({ type: 'TOGGLE_CHAT_HISTORY' })
+  }
+
+  // NEW: Handle dropdown selection
+  const handleDropdownChange = (event: React.FormEvent<HTMLDivElement>, option?: IDropdownOption) => {
+    if (option) {
+      setSelectedUseCase(option)
+      console.log('Selected use case:', option.text)
+      console.log('Assistant ID:', option.data.assistantId)
+      
+      // Add your logic here to handle the selection
+      // For example, you might want to:
+      // - Update app state with the selected assistant ID
+      // - Navigate to a different route
+      // - Trigger some API call
+      
+      // Example of updating app state (uncomment and modify as needed):
+      // appStateContext?.dispatch({ 
+      //   type: 'SET_ASSISTANT_ID', 
+      //   payload: option.data.assistantId 
+      // })
+    }
   }
 
   useEffect(() => {
@@ -87,12 +109,23 @@ const Layout = () => {
         <Stack horizontal verticalAlign="center" horizontalAlign="space-between">
           <Stack horizontal verticalAlign="center">
             <img src={logo} className={styles.headerIcon} aria-hidden="true" alt="" />
-            {/* Dropdown added here */}
+            
+            {/* FIXED: Added onChange handler and debug styles */}
             <Dropdown
               placeholder="Select a use case"
               options={dropdownOptions}
-              styles={{ root: { minWidth: 200, marginLeft: 12 } }}
+              selectedKey={selectedUseCase?.key}
+              onChange={handleDropdownChange}
+              styles={{ 
+                root: { 
+                  minWidth: 200, 
+                  marginLeft: 12,
+                  // Temporary debug border - remove this once working
+                  border: '2px solid red'
+                } 
+              }}
             />
+            
             <Link to="/" className={styles.headerTitleContainer}>
               <h1 className={styles.headerTitle}>{ui?.title}</h1>
             </Link>
