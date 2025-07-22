@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react'
 import { Link, Outlet } from 'react-router-dom'
-import { Dialog, Stack, TextField } from '@fluentui/react'
+import { Dialog, Stack, TextField, Dropdown, IDropdownOption } from '@fluentui/react'
 import { CopyRegular } from '@fluentui/react-icons'
 
 import { CosmosDBStatus } from '../../api'
@@ -9,7 +9,6 @@ import { HistoryButton, ShareButton } from '../../components/common/Button'
 import { AppStateContext } from '../../state/AppProvider'
 
 import styles from './Layout.module.css'
-import { Dropdown, IDropdownOption } from '@fluentui/react'
 
 const dropdownOptions: IDropdownOption[] = [
   { key: 'radiology', text: 'Radiology Procedure', data: { assistantId: 'assistant_radiology_id' } },
@@ -49,7 +48,7 @@ const Layout = () => {
     appStateContext?.dispatch({ type: 'TOGGLE_CHAT_HISTORY' })
   }
 
-  // NEW: Handle dropdown selection
+  // Handle dropdown selection
   const handleDropdownChange = (event: React.FormEvent<HTMLDivElement>, option?: IDropdownOption) => {
     if (option) {
       setSelectedUseCase(option)
@@ -57,12 +56,7 @@ const Layout = () => {
       console.log('Assistant ID:', option.data.assistantId)
       
       // Add your logic here to handle the selection
-      // For example, you might want to:
-      // - Update app state with the selected assistant ID
-      // - Navigate to a different route
-      // - Trigger some API call
-      
-      // Example of updating app state (uncomment and modify as needed):
+      // For example:
       // appStateContext?.dispatch({ 
       //   type: 'SET_ASSISTANT_ID', 
       //   payload: option.data.assistantId 
@@ -103,6 +97,15 @@ const Layout = () => {
     return () => window.removeEventListener('resize', handleResize)
   }, [])
 
+  // DEBUG: Remove this useEffect once dropdown is working
+  useEffect(() => {
+    console.log('=== DROPDOWN DEBUG ===')
+    console.log('Dropdown options:', dropdownOptions)
+    console.log('Styles object:', styles)
+    console.log('FluentUI Dropdown type:', typeof Dropdown)
+    console.log('Selected use case:', selectedUseCase)
+  }, [selectedUseCase])
+
   return (
     <div className={styles.layout}>
       <header className={styles.header} role={'banner'}>
@@ -110,26 +113,29 @@ const Layout = () => {
           <Stack horizontal verticalAlign="center">
             <img src={logo} className={styles.headerIcon} aria-hidden="true" alt="" />
             
-            {/* FIXED: Added onChange handler and debug styles */}
-            <Dropdown
-              placeholder="Select a use case"
-              options={dropdownOptions}
-              selectedKey={selectedUseCase?.key}
-              onChange={handleDropdownChange}
-              styles={{ 
-                root: { 
-                  minWidth: 200, 
-                  marginLeft: 12,
-                  // Temporary debug border - remove this once working
-                  border: '2px solid red'
-                } 
-              }}
-            />
+            {/* Dropdown with debug styling - remove debugDropdown class once working */}
+            <div className={`${styles.dropdownContainer} ${styles.debugDropdown}`}>
+              <Dropdown
+                placeholder="Select a use case"
+                options={dropdownOptions}
+                selectedKey={selectedUseCase?.key}
+                onChange={handleDropdownChange}
+                styles={{ 
+                  root: { 
+                    width: '100%'
+                  },
+                  dropdown: {
+                    minWidth: '200px'
+                  }
+                }}
+              />
+            </div>
             
             <Link to="/" className={styles.headerTitleContainer}>
               <h1 className={styles.headerTitle}>{ui?.title}</h1>
             </Link>
           </Stack>
+          
           <Stack horizontal tokens={{ childrenGap: 4 }} className={styles.shareButtonContainer}>
             {appStateContext?.state.isCosmosDBAvailable?.status !== CosmosDBStatus.NotConfigured && ui?.show_chat_history_button !== false && (
               <HistoryButton
