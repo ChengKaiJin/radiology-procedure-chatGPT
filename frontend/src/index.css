@@ -1,6 +1,3 @@
-/* FluentUI CSS - CRITICAL for dropdown to work */
-@import '@fluentui/react/dist/css/fabric.css';
-
 * {
   box-sizing: border-box;
 }
