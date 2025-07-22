@@ -8,7 +8,7 @@
 /* Header styles */
 .header {
   background-color: #f2f2f2;
-  padding: 8px 0; /* Added padding for better spacing */
+  padding: 8px 0;
 }
 
 /* Header title container */
@@ -28,7 +28,7 @@
   display: flex;
   align-items: flex-end;
   color: #242424;
-  margin: 0; /* Remove default margin */
+  margin: 0;
 }
 
 /* Logo/icon styles */
@@ -38,13 +38,22 @@
   margin-left: 36px;
 }
 
-/* NEW: Dropdown container styles - this was missing! */
+/* Dropdown container styles */
 .dropdownContainer {
   margin-left: 12px;
   min-width: 200px;
-  /* Ensure dropdown is visible */
   position: relative;
   z-index: 10;
+}
+
+/* DEBUG: Remove this class once dropdown is working */
+.debugDropdown {
+  border: 2px solid red !important;
+  background: yellow !important;
+  min-height: 32px !important;
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
 }
 
 /* Share button container */
@@ -53,7 +62,7 @@
   flex-direction: row;
   justify-content: center;
   margin-right: 20px;
-  gap: 4px; /* Better spacing between buttons */
+  gap: 4px;
 }
 
 /* Share button styles */
@@ -80,8 +89,8 @@
   color: #707070;
   border: 1px solid #d1d1d1;
   border-radius: 4px;
-  flex: 1; /* Take up available space */
-  padding: 8px; /* Add padding */
+  flex: 1;
+  padding: 8px;
 }
 
 /* Copy button container */
@@ -96,7 +105,7 @@
   background: #ffffff;
   border: 1px solid #d1d1d1;
   border-radius: 4px;
-  transition: background-color 0.2s ease; /* Smooth hover transition */
+  transition: background-color 0.2s ease;
 }
 
 .copyButtonContainer:hover {
@@ -120,7 +129,7 @@
   color: #242424;
 }
 
-/* NEW: FluentUI Dropdown overrides - ensures visibility */
+/* FluentUI Dropdown overrides */
 .dropdownContainer :global(.ms-Dropdown) {
   min-width: 200px;
 }
@@ -134,7 +143,6 @@
   z-index: 1001;
 }
 
-
 /* Responsive styles */
 @media (max-width: 480px) {
   .headerTitleContainer {
@@ -145,13 +153,11 @@
     margin-left: 26px;
   }
   
-  /* NEW: Adjust dropdown on mobile */
   .dropdownContainer {
     margin-left: 8px;
     min-width: 150px;
   }
   
-  /* Make header stack better on mobile */
   .header {
     padding: 4px 0;
   }
