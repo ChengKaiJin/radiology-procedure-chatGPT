@@ -1,17 +1,19 @@
-/* Main layout container */
 .layout {
   display: flex;
   flex-direction: column;
   height: 100%;
 }
 
-/* Header styles */
 .header {
   background-color: #f2f2f2;
-  padding: 8px 0; /* Added padding for better spacing */
 }
 
-/* Header title container */
+.headerContainer {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+}
+
 .headerTitleContainer {
   display: flex;
   align-items: center;
@@ -19,7 +21,6 @@
   text-decoration: none;
 }
 
-/* Header title text */
 .headerTitle {
   font-style: normal;
   font-weight: 600;
@@ -28,35 +29,21 @@
   display: flex;
   align-items: flex-end;
   color: #242424;
-  margin: 0; /* Remove default margin */
 }
 
-/* Logo/icon styles */
 .headerIcon {
   height: 32px;
   width: auto;
   margin-left: 36px;
 }
 
-/* NEW: Dropdown container styles - this was missing! */
-.dropdownContainer {
-  margin-left: 12px;
-  min-width: 200px;
-  /* Ensure dropdown is visible */
-  position: relative;
-  z-index: 10;
-}
-
-/* Share button container */
 .shareButtonContainer {
   display: flex;
   flex-direction: row;
   justify-content: center;
   margin-right: 20px;
-  gap: 4px; /* Better spacing between buttons */
 }
 
-/* Share button styles */
 .shareButton {
   color: #ffffff;
 }
@@ -71,7 +58,6 @@
   color: #ffffff;
 }
 
-/* Dialog text input */
 .urlTextBox {
   font-style: normal;
   font-weight: 400;
@@ -80,11 +66,8 @@
   color: #707070;
   border: 1px solid #d1d1d1;
   border-radius: 4px;
-  flex: 1; /* Take up available space */
-  padding: 8px; /* Add padding */
 }
 
-/* Copy button container */
 .copyButtonContainer {
   box-sizing: border-box;
   display: flex;
@@ -96,7 +79,6 @@
   background: #ffffff;
   border: 1px solid #d1d1d1;
   border-radius: 4px;
-  transition: background-color 0.2s ease; /* Smooth hover transition */
 }
 
 .copyButtonContainer:hover {
@@ -104,12 +86,10 @@
   background: #d1d1d1;
 }
 
-/* Copy button icon */
 .copyButton {
   color: #424242;
 }
 
-/* Copy button text */
 .copyButtonText {
   font-style: normal;
   font-weight: 600;
@@ -120,39 +100,12 @@
   color: #242424;
 }
 
-/* NEW: FluentUI Dropdown overrides - ensures visibility */
-.dropdownContainer :global(.ms-Dropdown) {
-  min-width: 200px;
-}
-
-.dropdownContainer :global(.ms-Dropdown-container) {
-  position: relative;
-  z-index: 1000;
-}
-
-.dropdownContainer :global(.ms-Dropdown-callout) {
-  z-index: 1001;
-}
-
-
-/* Responsive styles */
 @media (max-width: 480px) {
   .headerTitleContainer {
     margin-left: 4px;
   }
-  
+
   .headerIcon {
     margin-left: 26px;
-  }
-  
-  /* NEW: Adjust dropdown on mobile */
-  .dropdownContainer {
-    margin-left: 8px;
-    min-width: 150px;
-  }
-  
-  /* Make header stack better on mobile */
-  .header {
-    padding: 4px 0;
   }
 }
