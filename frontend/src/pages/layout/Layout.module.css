@@ -1,17 +1,19 @@
-/* Main layout container */
 .layout {
   display: flex;
   flex-direction: column;
   height: 100%;
 }
 
-/* Header styles */
 .header {
   background-color: #f2f2f2;
-  padding: 8px 0;
 }
 
-/* Header title container */
+.headerContainer {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+}
+
 .headerTitleContainer {
   display: flex;
   align-items: center;
@@ -19,7 +21,6 @@
   text-decoration: none;
 }
 
-/* Header title text */
 .headerTitle {
   font-style: normal;
   font-weight: 600;
@@ -28,44 +29,21 @@
   display: flex;
   align-items: flex-end;
   color: #242424;
-  margin: 0;
 }
 
-/* Logo/icon styles */
 .headerIcon {
   height: 32px;
   width: auto;
   margin-left: 36px;
 }
 
-/* Dropdown container styles */
-.dropdownContainer {
-  margin-left: 12px;
-  min-width: 200px;
-  position: relative;
-  z-index: 10;
-}
-
-/* DEBUG: Remove this class once dropdown is working */
-.debugDropdown {
-  border: 2px solid red !important;
-  background: yellow !important;
-  min-height: 32px !important;
-  display: block !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-}
-
-/* Share button container */
 .shareButtonContainer {
   display: flex;
   flex-direction: row;
   justify-content: center;
   margin-right: 20px;
-  gap: 4px;
 }
 
-/* Share button styles */
 .shareButton {
   color: #ffffff;
 }
@@ -80,7 +58,6 @@
   color: #ffffff;
 }
 
-/* Dialog text input */
 .urlTextBox {
   font-style: normal;
   font-weight: 400;
@@ -89,11 +66,8 @@
   color: #707070;
   border: 1px solid #d1d1d1;
   border-radius: 4px;
-  flex: 1;
-  padding: 8px;
 }
 
-/* Copy button container */
 .copyButtonContainer {
   box-sizing: border-box;
   display: flex;
@@ -105,7 +79,6 @@
   background: #ffffff;
   border: 1px solid #d1d1d1;
   border-radius: 4px;
-  transition: background-color 0.2s ease;
 }
 
 .copyButtonContainer:hover {
@@ -113,12 +86,10 @@
   background: #d1d1d1;
 }
 
-/* Copy button icon */
 .copyButton {
   color: #424242;
 }
 
-/* Copy button text */
 .copyButtonText {
   font-style: normal;
   font-weight: 600;
@@ -129,36 +100,12 @@
   color: #242424;
 }
 
-/* FluentUI Dropdown overrides */
-.dropdownContainer :global(.ms-Dropdown) {
-  min-width: 200px;
-}
-
-.dropdownContainer :global(.ms-Dropdown-container) {
-  position: relative;
-  z-index: 1000;
-}
-
-.dropdownContainer :global(.ms-Dropdown-callout) {
-  z-index: 1001;
-}
-
-/* Responsive styles */
 @media (max-width: 480px) {
   .headerTitleContainer {
     margin-left: 4px;
   }
-  
+
   .headerIcon {
     margin-left: 26px;
-  }
-  
-  .dropdownContainer {
-    margin-left: 8px;
-    min-width: 150px;
-  }
-  
-  .header {
-    padding: 4px 0;
   }
 }

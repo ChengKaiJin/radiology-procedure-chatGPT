@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react'
 import { Link, Outlet } from 'react-router-dom'
-import { Dialog, Stack, TextField, Dropdown, IDropdownOption } from '@fluentui/react'
+import { Dialog, Stack, TextField } from '@fluentui/react'
 import { CopyRegular } from '@fluentui/react-icons'
 
 import { CosmosDBStatus } from '../../api'
@@ -9,12 +9,14 @@ import { HistoryButton, ShareButton } from '../../components/common/Button'
 import { AppStateContext } from '../../state/AppProvider'
 
 import styles from './Layout.module.css'
+import { Dropdown, IDropdownOption } from '@fluentui/react'
 
 const dropdownOptions: IDropdownOption[] = [
   { key: 'radiology', text: 'Radiology Procedure', data: { assistantId: 'assistant_radiology_id' } },
   { key: 'ai_discharge', text: 'AI Discharge Summary', data: { assistantId: 'asst_5r1zDFF5azJdrE9XLHcewtyg' } },
   { key: 'demo', text: 'Demo', data: { assistantId: 'asst_yH75KL07chJztcQJ2FvAnD4A' } }
 ]
+
 
 const Layout = () => {
   const [isSharePanelOpen, setIsSharePanelOpen] = useState<boolean>(false)
@@ -24,8 +26,6 @@ const Layout = () => {
   const [hideHistoryLabel, setHideHistoryLabel] = useState<string>('Hide chat history')
   const [showHistoryLabel, setShowHistoryLabel] = useState<string>('Show chat history')
   const [logo, setLogo] = useState('')
-  const [selectedUseCase, setSelectedUseCase] = useState<IDropdownOption | undefined>(undefined)
-  
   const appStateContext = useContext(AppStateContext)
   const ui = appStateContext?.state.frontendSettings?.ui
 
@@ -46,22 +46,6 @@ const Layout = () => {
 
   const handleHistoryClick = () => {
     appStateContext?.dispatch({ type: 'TOGGLE_CHAT_HISTORY' })
-  }
-
-  // Handle dropdown selection
-  const handleDropdownChange = (event: React.FormEvent<HTMLDivElement>, option?: IDropdownOption) => {
-    if (option) {
-      setSelectedUseCase(option)
-      console.log('Selected use case:', option.text)
-      console.log('Assistant ID:', option.data.assistantId)
-      
-      // Add your logic here to handle the selection
-      // For example:
-      // appStateContext?.dispatch({ 
-      //   type: 'SET_ASSISTANT_ID', 
-      //   payload: option.data.assistantId 
-      // })
-    }
   }
 
   useEffect(() => {
@@ -97,45 +81,22 @@ const Layout = () => {
     return () => window.removeEventListener('resize', handleResize)
   }, [])
 
-  // DEBUG: Remove this useEffect once dropdown is working
-  useEffect(() => {
-    console.log('=== DROPDOWN DEBUG ===')
-    console.log('Dropdown options:', dropdownOptions)
-    console.log('Styles object:', styles)
-    console.log('FluentUI Dropdown type:', typeof Dropdown)
-    console.log('Selected use case:', selectedUseCase)
-  }, [selectedUseCase])
-
   return (
     <div className={styles.layout}>
       <header className={styles.header} role={'banner'}>
         <Stack horizontal verticalAlign="center" horizontalAlign="space-between">
           <Stack horizontal verticalAlign="center">
             <img src={logo} className={styles.headerIcon} aria-hidden="true" alt="" />
-            
-            {/* Dropdown with debug styling - remove debugDropdown class once working */}
-            <div className={`${styles.dropdownContainer} ${styles.debugDropdown}`}>
-              <Dropdown
-                placeholder="Select a use case"
-                options={dropdownOptions}
-                selectedKey={selectedUseCase?.key}
-                onChange={handleDropdownChange}
-                styles={{ 
-                  root: { 
-                    width: '100%'
-                  },
-                  dropdown: {
-                    minWidth: '200px'
-                  }
-                }}
-              />
-            </div>
-            
+            {/* Dropdown added here */}
+            <Dropdown
+              placeholder="Select a use case"
+              options={dropdownOptions}
+              styles={{ root: { minWidth: 200, marginLeft: 12 } }}
+            />
             <Link to="/" className={styles.headerTitleContainer}>
               <h1 className={styles.headerTitle}>{ui?.title}</h1>
             </Link>
           </Stack>
-          
           <Stack horizontal tokens={{ childrenGap: 4 }} className={styles.shareButtonContainer}>
             {appStateContext?.state.isCosmosDBAvailable?.status !== CosmosDBStatus.NotConfigured && ui?.show_chat_history_button !== false && (
               <HistoryButton
