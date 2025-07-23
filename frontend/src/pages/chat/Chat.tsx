@@ -65,6 +65,8 @@ const Chat = () => {
   const [errorMsg, setErrorMsg] = useState<ErrorMessage | null>()
   const [logo, setLogo] = useState('')
   const [answerId, setAnswerId] = useState<string>('')
+  const selectedAssistantId = appStateContext?.state.selectedAssistantId
+  const currentThreadId = appStateContext?.state.currentThreadId
 
   const errorDialogContentProps = {
     type: DialogType.close,
@@ -225,7 +227,13 @@ const Chat = () => {
 
     let result = {} as ChatResponse
     try {
-      const response = await conversationApi(request, abortController.signal)
+      const response = await conversationApi(
+        request,
+        abortController.signal,
+        selectedAssistantId || undefined, 
+        currentThreadId
+      )
+
       if (response?.body) {
         const reader = response.body.getReader()
 
@@ -269,6 +277,9 @@ const Chat = () => {
           })
         }
         conversation.messages.push(toolMessage, assistantMessage)
+        if (result.thread_id && !currentThreadId) {
+          appStateContext?.dispatch({ type: 'SET_THREAD_ID', payload: result.thread_id })
+        }
         appStateContext?.dispatch({ type: 'UPDATE_CURRENT_CHAT', payload: conversation })
         setMessages([...messages, toolMessage, assistantMessage])
       }
@@ -347,8 +358,8 @@ const Chat = () => {
     var errorResponseMessage = 'Please try again. If the problem persists, please contact the site administrator.'
     try {
       const response = conversationId
-        ? await historyGenerate(request, abortController.signal, conversationId)
-        : await historyGenerate(request, abortController.signal)
+        ? await historyGenerate(request, abortController.signal, conversationId, selectedAssistantId || undefined, currentThreadId)
+        : await historyGenerate(request, abortController.signal, undefined, selectedAssistantId || undefined, currentThreadId)
       if (!response?.ok) {
         const responseJson = await response.json()
         errorResponseMessage =
@@ -550,6 +561,7 @@ const Chat = () => {
           payload: appStateContext?.state.currentChat.id
         })
         appStateContext?.dispatch({ type: 'UPDATE_CHAT_HISTORY', payload: appStateContext?.state.currentChat })
+        appStateContext?.dispatch({ type: 'SET_THREAD_ID', payload: null })
         setActiveCitation(undefined)
         setIsCitationPanelOpen(false)
         setIsIntentsPanelOpen(false)
@@ -621,6 +633,7 @@ const Chat = () => {
     setIsIntentsPanelOpen(false)
     setActiveCitation(undefined)
     appStateContext?.dispatch({ type: 'UPDATE_CURRENT_CHAT', payload: null })
+    appStateContext?.dispatch({ type: 'SET_THREAD_ID', payload: null })  
     setProcessMessages(messageStatus.Done)
   }
 
